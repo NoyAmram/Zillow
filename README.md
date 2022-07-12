@@ -3,6 +3,8 @@
 
 [![a pic from zillow website - is it okay to take pic like this? ](https://s.zillowstatic.com/pfs/static/footer-art.svg)](https://s.zillowstatic.com/pfs/static/footer-art.svg)
 
+✨- _link of this project: https://github.com/NoyAmram/Zillow_
+
 
 Zillow is an American tech real-estate marketplace company. In their website www.zillow.com it lists information of different types of real-estate properties such as houses, apartments, villas, to rent and to buy. In addition, Zillow also has their own tool 'Zestimate' to estimate the value of real-estate properties. 
 
@@ -15,8 +17,7 @@ Zillow is an American tech real-estate marketplace company. In their website www
 - Size of the properties: quantity of bedrooms, bathrooms and total area. 
 - Addresses of the properties 
 - links of the properties 
-- maybe zestimate value?
-- xxxxx
+
 
 ## Requirements for this data scraping:
 - requests~=2.28.1
