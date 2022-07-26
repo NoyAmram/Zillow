@@ -1,15 +1,33 @@
+import os
+import sys
 from bs4 import BeautifulSoup
 import requests
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# import chromedriver_autoinstaller
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.common.by import By
 import zillow_config as cfg
 import json
 
 
+# def set_driver():
+#     chromedriver_autoinstaller.install()
+#     options = webdriver.ChromeOptions()
+#     driver = webdriver.Chrome()
+#     return driver
+
+
 def web_parse(url):
-    """ Receives  URL extracts ###to complete ,using BeautifulSoup library"""
-    response = requests.get(url, headers=cfg.HEADER)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.text, 'html.parser')
-        return soup
+    """ Receives  URL extracts to complete ,using BeautifulSoup library"""
+    # response = requests.get(url, headers=cfg.HEADER)
+    # if response.status_code == 200:
+    #     soup = BeautifulSoup(response.text, 'html.parser')
+    #     return soup
+    with requests.Session() as session:
+        response = session.get(url, headers=cfg.HEADER)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    return soup
 
 
 def data_scraping(web_soup):
@@ -52,7 +70,8 @@ def main():
     """ Starting function of the program, calls above functions """
     data_soup = web_parse(cfg.URL)
     data = data_scraping(data_soup)
-    select_data(data)
+    print(data)
+    # select_data(data)
 
 
 if __name__ == '__main__':
