@@ -1,77 +1,58 @@
-import os
-import sys
 from bs4 import BeautifulSoup
 import requests
-# from selenium import webdriver
-# from selenium.webdriver.chrome.service import Service
-# import chromedriver_autoinstaller
-# from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.common.by import By
 import zillow_config as cfg
 import json
+import pandas as pd
+from tqdm import tqdm
+import warnings
+warnings.filterwarnings('ignore')
 
 
-# def set_driver():
-#     chromedriver_autoinstaller.install()
-#     options = webdriver.ChromeOptions()
-#     driver = webdriver.Chrome()
-#     return driver
+def get_pages_url():
+    """ Creates and returns list of unique url for each search page """
+    url_list = [cfg.URL + str(i) + '_p/' for i in range(cfg.START_PAGE, cfg.NUM_PAGE)]
+    url_list.insert(0, cfg.URL)  # url of first page has no page number
+    return url_list
 
 
-def web_parse(url):
-    """ Receives  URL extracts to complete ,using BeautifulSoup library"""
-    # response = requests.get(url, headers=cfg.HEADER)
-    # if response.status_code == 200:
-    #     soup = BeautifulSoup(response.text, 'html.parser')
-    #     return soup
+def web_parse(url_pages):
+    """ Receives list of urls differentiate with page numbers.
+     Using requests.Session() send request for each url.
+     Content extracted for each response text using BeautifulSoup library """
     with requests.Session() as session:
-        response = session.get(url, headers=cfg.HEADER)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    return soup
+        response_list = [session.get(url, headers=cfg.HEADER) for url in tqdm(url_pages)]
+    soup_list = [BeautifulSoup(response.text, 'html.parser') for response in tqdm(response_list)]
+    return soup_list
 
 
-def data_scraping(web_soup):
-    """ Receives soup object, extract the content using json and returns data for each house as dictionary """
-    data = json.loads(
+def data_scraping(web_soup_list):
+    """ Receives list of soup objects, extract the content using json
+        and returns list of all data, dictionary for each house """
+    all_data = [json.loads(
         web_soup.select_one("script[data-zrr-shared-data-key]")
         .contents[0]
-        .strip("!<>-")
-    )
-    all_data = data['cat1']['searchResults']['listResults']
+        .strip("!<>-")) for web_soup in tqdm(web_soup_list)]
     return all_data
 
 
-def select_data(web_data):
-    """ Receives site content containing all data for each house as dictionary.
-     Extracts from the data: price, address, area, room number and link for each house """
-    for i in range(len(web_data)):
-        address = web_data[i]['address']
-        area = web_data[i]['area']
-        bed_rooms = web_data[i]['beds']
-        bath_rooms = web_data[i]['baths']
-
-        # some items have the 'price' key nested inside units key, while others have simply inside data key
-        try:
-            price = web_data[i]['units'][0]['price']
-        except KeyError:
-            price = web_data[i]['price']
-
-        link = web_data[i]['detailUrl']
-        # Some links do not contain the starting website url, inserting pattern of https://www.zillow.com
-        if 'http' not in link:
-            link_to_buy = cfg.PATTERN + link
-        else:
-            link_to_buy = link
-
-        print(f"{address} | {price} | {link_to_buy} | {area} sqft | {bed_rooms} bed rooms | {bath_rooms} bath rooms")
+def data_to_frame(web_data, frame):
+    """ Receives site content from search pages, according to provided number of pages to extract from.
+        The data containing all information for each house as dictionary.
+         Extracts the data to create data frame """
+    for data in web_data:
+        for item in data['cat1']['searchResults']['listResults']:
+            frame = frame.append(item, ignore_index=True)
+    return frame
 
 
 def main():
     """ Starting function of the program, calls above functions """
-    data_soup = web_parse(cfg.URL)
+    url_pages = get_pages_url()
+    data_soup = web_parse(url_pages)
     data = data_scraping(data_soup)
-    print(data)
-    # select_data(data)
+    frame = pd.DataFrame()
+    house_df = data_to_frame(data, frame)
+    print(house_df)
 
 
 if __name__ == '__main__':
