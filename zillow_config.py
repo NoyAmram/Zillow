@@ -11,6 +11,6 @@ START_PAGE = 2
 NUM_PAGE = 20
 CITY = 'San-Diego'
 STATE = 'CA'
-URL = 'https://www.zillow.com/homes/' + CITY + ',_' + STATE + '_rb/'
+BASE_URL = 'https://www.zillow.com/homes/'
 
 

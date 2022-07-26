@@ -4,14 +4,28 @@ import zillow_config as cfg
 import json
 import pandas as pd
 from tqdm import tqdm
+import argparse
 import warnings
 warnings.filterwarnings('ignore')
 
 
-def get_pages_url():
+def get_arguments():
+    """Receives and return input of search query from the user """
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('city', nargs='?', const=1, default=cfg.CITY, type=str)
+    parser.add_argument('state', nargs='?', const=1, default=cfg.STATE, type=str)
+    parser.add_argument('pages_number', nargs='?', const=1, default=cfg.NUM_PAGE, type=int)
+    args = parser.parse_args()
+    city = args.city
+    state = args.state
+    num_pages = args.pages_number
+    return city, state, num_pages
+
+
+def get_pages_url(url, end_page):
     """ Creates and returns list of unique url for each search page """
-    url_list = [cfg.URL + str(i) + '_p/' for i in range(cfg.START_PAGE, cfg.NUM_PAGE)]
-    url_list.insert(0, cfg.URL)  # url of first page has no page number
+    url_list = [url + str(i) + '_p/' for i in range(cfg.START_PAGE, end_page)]
+    url_list.insert(0, url)  # url of first page has no page number
     return url_list
 
 
@@ -47,7 +61,9 @@ def data_to_frame(web_data, frame):
 
 def main():
     """ Starting function of the program, calls above functions """
-    url_pages = get_pages_url()
+    arguments = get_arguments()
+    search_url = cfg.BASE_URL + arguments[0] + ',_' + arguments[1] + '_rb/'
+    url_pages = get_pages_url(search_url, arguments[2])
     data_soup = web_parse(url_pages)
     data = data_scraping(data_soup)
     frame = pd.DataFrame()
