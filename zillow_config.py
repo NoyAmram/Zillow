@@ -1,13 +1,16 @@
 
 HEADER = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36",
-    "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8"
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'accept-encoding': 'gzip, deflate, br',
+    'accept-language': 'en-US,en;q=0.8',
+    'upgrade-insecure-requests': '1',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'
 }
 
-UNIT_TYPE = 'for_rent/'
-CITY = 'New York'
-URL = 'https://www.zillow.com/homes/' + UNIT_TYPE + CITY
+START_PAGE = 2
+NUM_PAGE = 20
+CITY = 'San-Diego'
+STATE = 'CA'
+URL = 'https://www.zillow.com/homes/' + CITY + ',_' + STATE + '_rb/'
 
-PATTERN = "https://www.zillow.com"
 
-PATH = "/driver/chromedriver"  # path to the chromedriver executable
