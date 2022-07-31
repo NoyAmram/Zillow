@@ -5,6 +5,7 @@ import json
 import pandas as pd
 from tqdm import tqdm
 import argparse
+from insert_data_to_db import data_to_db
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -68,8 +69,9 @@ def main():
     data = data_scraping(data_soup)
     frame = pd.DataFrame()
     house_df = data_to_frame(data, frame)
-    print(house_df)
+    data_to_db(house_df)
 
 
 if __name__ == '__main__':
     main()
+
