@@ -15,7 +15,7 @@ Zillow is an American tech real-estate marketplace company. In their website www
 - Size of the properties: quantity of bedrooms, bathrooms and total area. 
 - Addresses of the properties 
 - Links of the properties
-- Infomation for each property, including appliances, common walls with others, property details such as parking, garages, community and neighborhood details, price history, public tax history, etc. 
+- Information for each property, including appliances, common walls with others, property details such as parking, garages, community and neighborhood details, price history, public tax history, etc. 
 
 ## Prerequisites: 
 - Project requires [Python](https://www.python.org/) v3.7+ to run.
@@ -25,7 +25,9 @@ Zillow is an American tech real-estate marketplace company. In their website www
 - Clone the repo:   
  ```git clone https://github.com/NoyAmram/Zillow ```
 - Use requirements.txt to install relevant packages.
-- Enter MySQL username and password in zillow_config.py
+- Enter your MySQL username and password in zillow_config.py under 'SQL_ROOT' and 'SQL_PASS'. 
+- Run the script empty_database.py to create an empty database with relevant tables for 'zillow'.
+- Run zillow_main.py to scrape the data from the website and save the data into database 'zillow'.
 
 
 ## How did we scrape the data? 
@@ -35,8 +37,8 @@ Data scraping is done by using python package BeautifulSoup, Requests. Different
 - Default values for query, if no arguments are given: San-Diego CA 20 
 
 ## Database
-Database containing 5 tables so far. 
-![](image.png)![ERD](file:///D:/ITC/zillow_project/ERD.PNG)
+Database containing 5 tables, below is an ERD visualization:
+![](ERD_image.PNG)
 
 schema of the tables are shown below:
 ```markdown
