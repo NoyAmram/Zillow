@@ -32,7 +32,9 @@ Zillow is an American tech real-estate marketplace company. In their website www
 
 ## How did we scrape the data? 
 
-Data scraping is done by using python package BeautifulSoup, Requests. Different input of search query can be entered by the user. Available parameters are city, state, number of pages to scrape. 
+Data scraping is done by using python package BeautifulSoup, Requests. 
+Different input of search query can be entered by the user. 
+Available parameters are city, state, number of pages to scrape. 
 - Example of query: New-York NY 5
 - Default values for query, if no arguments are given: San-Diego CA 20 
 
