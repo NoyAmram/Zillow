@@ -24,6 +24,13 @@ def api_data_to_frame(api_data):
     return frame
 
 
+def get_air_quality_data(aqi_data):
+    if aqi_data['status'] == 'fail':
+        # logger
+        return None
+    return aqi_data['data']['current']['pollution']['aqius']
+
+
 def main():
     """ Starting function of the program, calls above functions """
     # adding information for schools table from API
@@ -31,7 +38,8 @@ def main():
     schools_df = api_data_to_frame(schools_data)
 
     # adding information for area table from API
-    # to complete
+    aqi_data = get_data_from_api(cfg.AQI_URL, cfg.AQI_PARAMETERS)
+    aqi_for_city = get_air_quality_data(aqi_data)
 
 
 if __name__ == '__main__':

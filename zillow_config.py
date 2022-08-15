@@ -20,4 +20,15 @@ SQL_ROOT = db_root
 SCHOOLS_URL = "https://collegescorecard.ed.gov/"
 SCHOOLS_API_KEY = "to complete with hidden key"
 SCHOOLS_PARAMETERS = {
-    "appid": SCHOOLS_API_KEY}
+    "appid": SCHOOLS_API_KEY
+    }
+
+AQI_URL = "http://api.airvisual.com/v2/city"
+AQI_API_KEY = "8cb2912f-80f0-4e27-808d-0b3d290ac3ad"
+
+AQI_PARAMETERS = {
+    "city": CITY,
+    "state": "California",
+    "country": "USA",
+    "key": AQI_API_KEY
+    }
