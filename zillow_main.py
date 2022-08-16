@@ -7,8 +7,11 @@ from tqdm import tqdm
 import argparse
 import data_from_api
 from insert_data_to_db import data_to_db
+import log
 import warnings
 warnings.filterwarnings('ignore')
+
+logger = log.setup_custom_logger(__name__)
 
 
 def get_arguments():
@@ -21,6 +24,7 @@ def get_arguments():
     city = args.city
     state = args.state
     num_pages = args.pages_number
+    logger.info(f'Successfully pass query arguments: %s,%s,%s', city, state, num_pages)
     return city, state, num_pages
 
 
@@ -37,7 +41,14 @@ def web_parse(url_pages):
      Content extracted for each response text using BeautifulSoup library """
     with requests.Session() as session:
         response_list = [session.get(url, headers=cfg.HEADER) for url in tqdm(url_pages)]
+    for i, r in enumerate(response_list):
+        if r.status_code != 200:
+            logger.error(f'Server response failed with status code: %s, at index: %s', r.status_code, i)
     soup_list = [BeautifulSoup(response.text, 'html.parser') for response in tqdm(response_list)]
+    for soup in soup_list:
+        if soup.select_one("script[data-zrr-shared-data-key]") is None:
+            logger.warning(f'Website returns None object, '
+                           f'this will cause possible future problem')
     return soup_list
 
 
@@ -58,6 +69,7 @@ def data_to_frame(web_data, frame):
     for data in web_data:
         for item in data['cat1']['searchResults']['listResults']:
             frame = frame.append(item, ignore_index=True)
+    logger.info("Successfully create data frame of all search pages")
     return frame
 
 

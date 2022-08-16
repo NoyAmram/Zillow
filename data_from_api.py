@@ -2,13 +2,17 @@ import requests
 import zillow_config as cfg
 import pandas as pd
 from us_state_dictionary import abbrev_to_us_state
+import log
+
+logger = log.setup_custom_logger(__name__)
 
 
 def get_parameter(input_city, input_state):
     try:
         state = abbrev_to_us_state[input_state]
-    except KeyError as error:
-        print(error)
+    except KeyError:
+        logger.warning(f'Given state argument %s does not match any known state in dictionary', input_state)
+        pass
     else:
         city = ' '.join(input_city.split('-'))
         aqi_parameters = {
@@ -27,10 +31,10 @@ def get_data_from_api(api_url, parameters):
     response = requests.get(api_url, params=parameters)
     if response.status_code == 200:
         data = response.json()
+        logger.info(f'Successful response from API: %s', api_url)
         return data
     else:
-        print('connection error')
-        # to implement logger info
+        logger.error(f'Unsuccessful response from from API: %s', api_url)
 
 
 def api_data_to_frame(api_data):
@@ -42,8 +46,9 @@ def api_data_to_frame(api_data):
 
 def get_air_quality_data(aqi_data):
     if aqi_data['status'] == 'fail':
-        # logger
-        print("fail api")
+        logger.error(f'API fail to give valid data, check warnings for given arguments')
+        return
+    logger.info("Successful to get data from API")
     return aqi_data['data']['current']['pollution']['aqius']
 
 
