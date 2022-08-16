@@ -27,4 +27,5 @@ SCHOOLS_PARAMETERS = {
 AQI_URL = "http://api.airvisual.com/v2/city"
 AQI_API_KEY = "8cb2912f-80f0-4e27-808d-0b3d290ac3ad"
 
-
+# logger file
+LOG_FILE = 'logs.log'
