@@ -10,6 +10,7 @@ START_PAGE = 2
 NUM_PAGE = 20
 CITY = 'San-Diego'
 STATE = 'CA'
+COUNTRY = 'USA'
 BASE_URL = 'https://www.zillow.com/homes/'
 
 # for connection to MySQL
@@ -26,9 +27,4 @@ SCHOOLS_PARAMETERS = {
 AQI_URL = "http://api.airvisual.com/v2/city"
 AQI_API_KEY = "8cb2912f-80f0-4e27-808d-0b3d290ac3ad"
 
-AQI_PARAMETERS = {
-    "city": CITY,
-    "state": "California",
-    "country": "USA",
-    "key": AQI_API_KEY
-    }
+
