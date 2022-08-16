@@ -37,16 +37,9 @@ def get_data_from_api(api_url, parameters):
         logger.error(f'Unsuccessful response from from API: %s', api_url)
 
 
-def api_data_to_frame(api_data):
-    """ Receives content from API, according to query.
-         Extracts the data to create data frame relevant to table """
-    frame = pd.read_json(api_data, orient='index')
-    return frame
-
-
 def get_air_quality_data(aqi_data):
     if aqi_data['status'] == 'fail':
-        logger.error(f'API fail to give valid data, check warnings for given arguments')
+        logger.error('API fail to give valid data, check warnings for given arguments')
         return
     logger.info("Successful to get data from API")
     return aqi_data['data']['current']['pollution']['aqius']
@@ -62,11 +55,24 @@ def get_aqi_table(search_city, search_state):
     return aqi_df
 
 
-def get_school_table():
-    """ Function will be called from Zillow main, receives query city.
-    Calls relevant functions to get data from the API.
-    Returns data of schools for query city in data frame"""
-    # adding information for schools table from API
-    #schools_data = get_data_from_api(cfg.SCHOOLS_URL, cfg.SCHOOLS_PARAMETERS)
-    #schools_df = api_data_to_frame(schools_data)
-    pass
+def get_school_table(state):
+    """ Function will be called from Zillow main, receives query state.
+    Calls relevant API to get data.
+    Returns data of schools name and city for input state in data frame format."""
+    school_query = cfg.SCHOOLS_BASE_URL + '?school.state=' + state + '&api_key=' + cfg.SCHOOLS_API_KEY
+    response = requests.get(school_query)
+    if response.status_code == 200:
+        logger.info(f'Successful response from API: %s', school_query)
+        data = response.json()
+        school_name = []
+        school_city = []
+        if len(data['results']) > 0:
+            logger.info('Successful to receive results data, continue to creating schools df')
+            for i in range(len(data['results'])):
+                school_name.append(data['results'][i]['school']['name'])
+                school_city.append(data['results'][i]['school']['city'])
+            schools = pd.DataFrame({'school_name': school_name, 'city': school_city})
+            return schools
+        else:
+            logger.error('API fail to give valid data, check query arguments')
+    logger.error(f'Unsuccessful response from from API: %s', school_query)

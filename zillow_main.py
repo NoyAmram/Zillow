@@ -84,6 +84,7 @@ def main():
     frame = pd.DataFrame()
     house_df = data_to_frame(data, frame)
     data_to_db(house_df)
+    school_df = data_from_api.get_school_table(arguments[1])
     aqi_df = data_from_api.get_aqi_table(arguments[0], arguments[1])
     # to implement db
 

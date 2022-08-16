@@ -18,11 +18,8 @@ SQL_PASS = db_password
 SQL_ROOT = db_root
 
 # for requests from APIs
-SCHOOLS_URL = "https://collegescorecard.ed.gov/"
-SCHOOLS_API_KEY = "to complete with hidden key"
-SCHOOLS_PARAMETERS = {
-    "appid": SCHOOLS_API_KEY
-    }
+SCHOOLS_BASE_URL = "https://api.data.gov/ed/collegescorecard/v1/schools.json"
+SCHOOLS_API_KEY = "15YccxZXn0RXq0DaoQiTOdRDmA4gFywaNoUtQdhn"
 
 AQI_URL = "http://api.airvisual.com/v2/city"
 AQI_API_KEY = "8cb2912f-80f0-4e27-808d-0b3d290ac3ad"
