@@ -5,6 +5,7 @@ import json
 import pandas as pd
 from tqdm import tqdm
 import argparse
+import data_from_api
 from insert_data_to_db import data_to_db
 import warnings
 warnings.filterwarnings('ignore')
@@ -61,7 +62,8 @@ def data_to_frame(web_data, frame):
 
 
 def main():
-    """ Starting function of the program, calls above functions """
+    """ Starting function of the program, calls above functions
+     and activate script functions for API data and data_base creation."""
     arguments = get_arguments()
     search_url = cfg.BASE_URL + arguments[0] + ',_' + arguments[1] + '_rb/'
     url_pages = get_pages_url(search_url, arguments[2])
@@ -70,6 +72,8 @@ def main():
     frame = pd.DataFrame()
     house_df = data_to_frame(data, frame)
     data_to_db(house_df)
+    aqi_df = data_from_api.get_aqi_table(arguments[0], arguments[1])
+    # to implement db
 
 
 if __name__ == '__main__':
