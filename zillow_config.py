@@ -1,4 +1,5 @@
 from db_config import db_password, db_root
+from api_config import schools_api_key, aqi_api_key
 
 # for main zillow_site_scraping
 HEADER = {
@@ -19,10 +20,10 @@ SQL_ROOT = db_root
 
 # for requests from APIs
 SCHOOLS_BASE_URL = "https://api.data.gov/ed/collegescorecard/v1/schools.json"
-SCHOOLS_API_KEY = "15YccxZXn0RXq0DaoQiTOdRDmA4gFywaNoUtQdhn"
+SCHOOLS_API_KEY = schools_api_key
 
 AQI_URL = "http://api.airvisual.com/v2/city"
-AQI_API_KEY = "8cb2912f-80f0-4e27-808d-0b3d290ac3ad"
+AQI_API_KEY = aqi_api_key
 
 # logger file
 LOG_FILE = 'logs.log'

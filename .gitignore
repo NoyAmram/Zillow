@@ -2,4 +2,5 @@
 __pycache__/
 venv/
 db_config.py
+api_config.py
 *.log
