@@ -53,7 +53,7 @@ def get_aqi_table(search_city, search_state):
     Returns data of air quality index for query city in data frame"""
     aqi_data = get_data_from_api(cfg.AQI_URL, get_parameter(input_city=search_city, input_state=search_state))
     aqi_for_city = get_air_quality_data(aqi_data)
-    aqi_df = pd.DataFrame({'city': [search_city], 'AQI': [aqi_for_city]})
+    aqi_df = pd.DataFrame({'city': [search_city], 'state': [search_state], 'AQI': [aqi_for_city]})
     return aqi_df
 
 
@@ -68,12 +68,14 @@ def get_school_table(state):
         data = response.json()
         school_name = []
         school_city = []
+        school_state = []
         if len(data['results']) > 0:
             logger.info('Successful to receive results data, continue to creating schools df')
             for i in range(len(data['results'])):
                 school_name.append(data['results'][i]['school']['name'])
                 school_city.append(data['results'][i]['school']['city'])
-            schools = pd.DataFrame({'school_name': school_name, 'city': school_city})
+                school_state.append(data['results'][i]['school']['state'])
+            schools = pd.DataFrame({'school_name': school_name, 'city': school_city, 'state': school_state})
             return schools
         else:
             logger.error('API fail to give valid data, check query arguments')

@@ -34,7 +34,7 @@ def create_tables(cursor):
     id int primary key auto_increment,
     zillow_id int,
     price float not null, 
-    zestimate float,
+    zestimate_price float,
     house_type varchar(255),
     image_link varchar(255),
     unit_link varchar(255),
@@ -49,8 +49,9 @@ def create_tables(cursor):
     create_air_quality_index = """create table air_quality_index(
     id int primary key auto_increment,
     city varchar(255),
+    state varchar(255),
     AQI int,
-    UNIQUE (city)
+    UNIQUE (city, state)
     )ENGINE=INNODB"""
 
     # create table address
@@ -59,9 +60,11 @@ def create_tables(cursor):
     id int primary key,
     street varchar(255),
     city varchar(255),
+    state varchar(255),
     zipcode int,
+    aqi_id int,
     foreign key (id) references unit_house(id), 
-    foreign key (city) references air_quality_index(city) 
+    foreign key (aqi_id) references air_quality_index(id) 
         on delete cascade
         on update cascade
     )ENGINE=INNODB"""
@@ -71,7 +74,9 @@ def create_tables(cursor):
     create_schools = """create table schools(
       id int auto_increment primary key,
       school_name varchar(255),
-      city varchar(255)
+      city varchar(255),
+      state varchar(255),
+      UNIQUE (school_name)
       )ENGINE=INNODB"""
 
     # create table address_to_schools
@@ -80,9 +85,8 @@ def create_tables(cursor):
     address_id int, 
     school_id int,
     foreign key (address_id) references address(id),
-    foreign key (school_id) references schools(id)
-        on delete cascade
-        on update cascade
+    foreign key (school_id) references schools(id),
+    UNIQUE (address_id, school_id)     
     )ENGINE=INNODB"""
 
     cursor.execute(del_existing_unit_house)

@@ -6,7 +6,7 @@ import pandas as pd
 from tqdm import tqdm
 import argparse
 import data_from_api
-from insert_data_to_db import data_to_db
+from insert_data_to_db import data_from_scraper_to_db, data_from_api_school_to_db, data_from_api_AQI_to_db
 import log
 import warnings
 warnings.filterwarnings('ignore')
@@ -87,10 +87,11 @@ def main():
         data = data_scraping(data_soup)
         frame = pd.DataFrame()
         house_df = data_to_frame(data, frame)
-        data_to_db(house_df)
+        data_from_scraper_to_db(house_df)
     school_df = data_from_api.get_school_table(arguments[1])
+    data_from_api_school_to_db(school_df)
     aqi_df = data_from_api.get_aqi_table(arguments[0], arguments[1])
-    # to implement db
+    data_from_api_AQI_to_db(aqi_df)
 
 
 if __name__ == '__main__':
