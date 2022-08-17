@@ -53,7 +53,7 @@ def get_aqi_table(search_city, search_state):
     Returns data of air quality index for query city in data frame"""
     aqi_data = get_data_from_api(cfg.AQI_URL, get_parameter(input_city=search_city, input_state=search_state))
     aqi_for_city = get_air_quality_data(aqi_data)
-    aqi_df = pd.DataFrame({'city': [search_city], 'state': [search_state], 'AQI': [aqi_for_city]})
+    aqi_df = pd.DataFrame({'city': [' '.join(search_city.split('-'))], 'state': [search_state], 'AQI': [aqi_for_city]})
     return aqi_df
 
 

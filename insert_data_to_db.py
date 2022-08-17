@@ -7,7 +7,7 @@ def data_from_scraper_to_db(df):
     address(all columns except aqi_id) in database zillow """
     # connect to mysql using pymysql
     try:
-        conn = pymysql.connect(user='root', password=cfg.SQL_PASS, database='zillow')
+        conn = pymysql.connect(user=cfg.SQL_ROOT, password=cfg.SQL_PASS, database=cfg.DATABASE_NAME)
     except Exception as error:
         print(f'Below error occurred. Did you create the database? \n {error}')
     else:
@@ -48,20 +48,20 @@ def data_from_api_school_to_db(df_school):
         address_to_schools(all columns) in database zillow """
     # connect to mysql using pymysql
     try:
-        conn = pymysql.connect(user='root', password=cfg.SQL_PASS, database='zillow')
+        conn = pymysql.connect(user=cfg.SQL_ROOT, password=cfg.SQL_PASS, database=cfg.DATABASE_NAME)
     except Exception as error:
         print(f'Below error occurred. Did you create the database? \n {error}')
     else:
         cursor = conn.cursor()
 
-    #to insert data from df_school to table schools
+    # to insert data from df_school to table schools
     schools_s = df_school[['school_name', 'city', 'state']].values.tolist()
     q3 = 'insert into schools (school_name, city, state) values (%s, %s, %s) on duplicate key update city = values(city)'
     for school in schools_s:
         cursor.execute(q3, school)
     conn.commit()
 
-    #to insert data from table schools(id) and table address(id) into table address_to_schools
+    # to insert data from table schools(id) and table address(id) into table address_to_schools
     q5 = "select id from address"
     cursor.execute(q5)
     id_tuple_address = cursor.fetchall()
@@ -85,18 +85,19 @@ def data_from_api_school_to_db(df_school):
 
     conn.commit()
 
+
 def data_from_api_AQI_to_db(df_aqi):
     """Inserts data from air quality index API, to tables air_quality_index (all columns),
         address(column aqi_id) in database zillow """
     # connect to mysql using pymysql
     try:
-        conn = pymysql.connect(user='root', password=cfg.SQL_PASS, database='zillow')
+        conn = pymysql.connect(user=cfg.SQL_ROOT, password=cfg.SQL_PASS, database=cfg.DATABASE_NAME)
     except Exception as error:
         print(f'Below error occurred. Did you create the database? \n {error}')
     else:
         cursor = conn.cursor()
 
-    #to insert data from df_school to table air_quality_index
+    # to insert data from df_school to table air_quality_index
     aqis = df_aqi[['city', 'state', 'AQI']].values.tolist()
     q9 = 'insert into air_quality_index (city, state, AQI) values (%s, %s, %s) on duplicate key update AQI = values(AQI)'
     for aqi in aqis:

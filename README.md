@@ -1,7 +1,7 @@
 # Data mining project based on Zillow
 
 
-[![a pic from zillow website ](https://s.zillowstatic.com/pfs/static/footer-art.svg)](https://s.zillowstatic.com/pfs/static/footer-art.svg)
+![](zillow_image.svg)
 
 ✨- _link of this project: https://github.com/NoyAmram/Zillow_
 
@@ -47,17 +47,8 @@ Database containing 5 tables, below is an ERD visualization:
 ![](Zillow_project_ERD.png)
 
 schema of the tables are shown below:
-```markdown
-+--------------+-----------------+----------------------+---------------------------+
-| TABLE_SCHEMA | TABLE_NAME      | COLUMN_NAME          | CONSTRAINT_NAME           |
-+--------------+-----------------+----------------------+---------------------------+
-| zillow       | unit_address    | id                   | unit_address_ibfk_1       |
-| zillow       | unit_image      | id                   | unit_image_ibfk_1         |
-| zillow       | unit_info       | id                   | unit_info_ibfk_1          |
-| zillow       | unit_link       | id                   | unit_link_ibfk_1          |
-```
 
-
+![](zillow_schema.png)
 
 
 ### Contributing

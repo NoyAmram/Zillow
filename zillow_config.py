@@ -18,6 +18,7 @@ BASE_URL = 'https://www.zillow.com/homes/'
 # for connection to MySQL
 SQL_PASS = db_password
 SQL_ROOT = db_root
+DATABASE_NAME = 'zillow'
 
 # for requests from APIs
 SCHOOLS_BASE_URL = "https://api.data.gov/ed/collegescorecard/v1/schools.json"

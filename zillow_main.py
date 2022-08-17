@@ -6,7 +6,8 @@ import pandas as pd
 from tqdm import tqdm
 import argparse
 import data_from_api
-from insert_data_to_db import data_from_scraper_to_db, data_from_api_school_to_db, data_from_api_AQI_to_db
+from insert_data_to_db import data_from_scraper_to_db, data_from_api_school_to_db,\
+    data_from_api_AQI_to_db
 import log
 import warnings
 warnings.filterwarnings('ignore')

@@ -1,6 +1,9 @@
 """Below code creates empty database zillow, and tables inside. """
 import pymysql
 import zillow_config as cfg
+import log
+
+logger = log.setup_custom_logger(__name__)
 
 
 def get_connection():
@@ -21,7 +24,7 @@ def create_db(cursor):
     create_db_zillow = 'create database zillow'
     cursor.execute(del_existing_db)
     cursor.execute(create_db_zillow)
-    print('db zillow is created.')
+    logger.info('Successfully created data base zillow.')
 
 
 def create_tables(cursor):
@@ -91,23 +94,23 @@ def create_tables(cursor):
 
     cursor.execute(del_existing_unit_house)
     cursor.execute(create_unit_house)
-    print('table unit_house is created.')
+    logger.info('Successfully created table unit_house.')
 
     cursor.execute(del_existing_air_quality_index)
     cursor.execute(create_air_quality_index)
-    print('table air_quality_index is created.')
+    logger.info('Successfully created table air_quality_index.')
 
     cursor.execute(del_existing_address)
     cursor.execute(create_address)
-    print('table address is created.')
+    logger.info('Successfully created table address.')
 
     cursor.execute(del_existing_schools)
     cursor.execute(create_schools)
-    print('table schools is created.')
+    logger.info('Successfully created table schools.')
 
     cursor.execute(del_existing_address_to_schools)
     cursor.execute(create_address_to_schools)
-    print('table address_to_schools is created.')
+    logger.info('Successfully created table address_to_schools.')
 
 
 def main():
