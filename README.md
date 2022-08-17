@@ -46,7 +46,7 @@ Available parameters are city, state, number of pages to scrape.
 Database containing 5 tables, below is an ERD visualization:
 ![](Zillow_project_ERD.png)
 
-schema of the tables are shown below:
+schema of the tables is shown below:
 
 ![](zillow_schema.png)
 
