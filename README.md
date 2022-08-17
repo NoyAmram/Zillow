@@ -15,17 +15,21 @@ Zillow is an American tech real-estate marketplace company. In their website www
 - Size of the properties: quantity of bedrooms, bathrooms and total area. 
 - Addresses of the properties 
 - Links of the properties
-- Information for each property, including appliances, common walls with others, property details such as parking, garages, community and neighborhood details, price history, public tax history, etc. 
+- Additional information is added by using two free APIs:
+  - [College Scorecard](https://collegescorecard.ed.gov/) for Schools per city per state
+  - [IQAir](https://www.iqair.com/) for Air Quality Index per city per state
 
 ## Prerequisites: 
 - Project requires [Python](https://www.python.org/) v3.7+ to run.
 - MySQL v8.0+ for database. 
+- API keys (free with registrasion)
 
 ## Installation:
 - Clone the repo:   
  ```git clone https://github.com/NoyAmram/Zillow ```
 - Use requirements.txt to install relevant packages.
 - Enter your MySQL username and password in zillow_config.py under 'SQL_ROOT' and 'SQL_PASS'. 
+- Enter your API keys in zillow_config.py under 'SCHOOLS_API_KEY' and 'AQI_API_KEY'. 
 - Run the script empty_database.py to create an empty database with relevant tables for 'zillow'.
 - Run zillow_main.py to scrape the data from the website and save the data into database 'zillow'.
 
@@ -36,11 +40,11 @@ Data scraping is done by using python package BeautifulSoup, Requests.
 Different input of search query can be entered by the user. 
 Available parameters are city, state, number of pages to scrape. 
 - Example of query: New-York NY 5
-- Default values for query, if no arguments are given: San-Diego CA 20 
+- Default values for query, if no arguments are given: San-Diego CA 20
 
 ## Database
 Database containing 5 tables, below is an ERD visualization:
-![](ERD_image.PNG)
+![](Zillow_project_ERD.png)
 
 schema of the tables are shown below:
 ```markdown
