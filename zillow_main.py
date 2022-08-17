@@ -35,6 +35,7 @@ def get_pages_url(url, start_page, end_page):
     logger.info(f'Successfully create url_list from page %s to page %s', start_page, end_page)
     if start_page == cfg.START_PAGE:
         url_list.insert(0, url)  # url of first page has no page number
+        logger.info(f'Successfully create url for first page')
     return url_list
 
 
