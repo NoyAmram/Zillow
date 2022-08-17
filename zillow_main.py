@@ -28,10 +28,12 @@ def get_arguments():
     return city, state, num_pages
 
 
-def get_pages_url(url, end_page):
+def get_pages_url(url, start_page, end_page):
     """ Creates and returns list of unique url for each search page """
-    url_list = [url + str(i) + '_p/' for i in range(cfg.START_PAGE, end_page)]
-    url_list.insert(0, url)  # url of first page has no page number
+    url_list = [url + str(i) + '_p/' for i in range(start_page, end_page)]
+    logger.info(f'Successfully create url_list from page %s to page %s', start_page, end_page)
+    if start_page == cfg.START_PAGE:
+        url_list.insert(0, url)  # url of first page has no page number
     return url_list
 
 
@@ -78,12 +80,14 @@ def main():
      and activate script functions for API data and data_base creation."""
     arguments = get_arguments()
     search_url = cfg.BASE_URL + arguments[0] + ',_' + arguments[1] + '_rb/'
-    url_pages = get_pages_url(search_url, arguments[2])
-    data_soup = web_parse(url_pages)
-    data = data_scraping(data_soup)
-    frame = pd.DataFrame()
-    house_df = data_to_frame(data, frame)
-    data_to_db(house_df)
+    for page in range(cfg.START_PAGE, arguments[2], cfg.BATCH):
+        # default is scrape all 20 pages, 2 each time
+        url_pages = get_pages_url(search_url, page, page+cfg.BATCH)
+        data_soup = web_parse(url_pages)
+        data = data_scraping(data_soup)
+        frame = pd.DataFrame()
+        house_df = data_to_frame(data, frame)
+        data_to_db(house_df)
     school_df = data_from_api.get_school_table(arguments[1])
     aqi_df = data_from_api.get_aqi_table(arguments[0], arguments[1])
     # to implement db

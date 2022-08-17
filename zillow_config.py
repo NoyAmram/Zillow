@@ -9,6 +9,7 @@ HEADER = {
 
 START_PAGE = 2
 NUM_PAGE = 20
+BATCH = 2
 CITY = 'San-Diego'
 STATE = 'CA'
 COUNTRY = 'USA'

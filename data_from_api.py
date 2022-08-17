@@ -40,7 +40,9 @@ def get_data_from_api(api_url, parameters):
 def get_air_quality_data(aqi_data):
     if aqi_data['status'] == 'fail':
         logger.error('API fail to give valid data, check warnings for given arguments')
-        return
+        if aqi_data['data']['message'] == 'city_not_found':
+            logger.critical('API does support this city, returning 0 as value to avoid program crash')
+        return 0
     logger.info("Successful to get data from API")
     return aqi_data['data']['current']['pollution']['aqius']
 
