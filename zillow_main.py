@@ -59,11 +59,17 @@ def web_parse(url_pages):
 def data_scraping(web_soup_list):
     """ Receives list of soup objects, extract the content using json
         and returns list of all data, dictionary for each house """
-    all_data = [json.loads(
-        web_soup.select_one("script[data-zrr-shared-data-key]")
-        .contents[0]
-        .strip("!<>-")) for web_soup in tqdm(web_soup_list)]
-    return all_data
+    try:
+        all_data = [json.loads(
+            web_soup.select_one("script[data-zrr-shared-data-key]")
+            .contents[0]
+            .strip("!<>-")) for web_soup in tqdm(web_soup_list)]
+    except TypeError as scrape_error:
+        logger.error(f"Data return as None, error raised {scrape_error}."
+                     f"passing without content extraction")
+        pass
+    else:
+        return all_data
 
 
 def data_to_frame(web_data, frame):
@@ -71,8 +77,13 @@ def data_to_frame(web_data, frame):
         The data containing all information for each house as dictionary.
          Extracts the data to create data frame """
     for data in web_data:
-        for item in data['cat1']['searchResults']['listResults']:
-            frame = frame.append(item, ignore_index=True)
+        try:
+            for item in data['cat1']['searchResults']['listResults']:
+                frame = frame.append(item, ignore_index=True)
+        except TypeError as frame_error:
+            logger.error(f"The following error was raised: {frame_error}."
+                         f"Continue without adding to DataFrame.")
+            pass
     logger.info("Successfully create data frame of all search pages")
     return frame
 
